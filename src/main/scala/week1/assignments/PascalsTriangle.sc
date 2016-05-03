@@ -44,15 +44,15 @@ class PascalSpec extends FunSpec with Matchers {
   }
 }
 
-def pascal(column: Int, row: Int): Int = {
+def pascal(targetColumn: Int, targetRow: Int): Int = {
   def validColumn(): Boolean =
-    column <= row+1
+    targetColumn <= targetRow+1
   def loopRows(column: Int, row: Int): Int =
-    if (column == 0 || row+1 == column || row == 0) 1 else loopRows(column, row-1) + loopRows(column+1, row-1)
+    if (column == 0 || row+1 == column) 1 else loopRows(column, row-1) + loopRows(column+1, row-1)
 
 
 
-  if (validColumn()) loopRows(column, row) else throw new IndexOutOfBoundsException
+  if (validColumn()) loopRows(targetColumn, targetRow) else throw new IndexOutOfBoundsException
 }
 
 (new PascalSpec).execute()
