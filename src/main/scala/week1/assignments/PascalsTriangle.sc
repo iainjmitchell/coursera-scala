@@ -42,13 +42,31 @@ class PascalSpec extends FunSpec with Matchers {
       }
     }
   }
+  describe("Fifth row"){
+    val rowId = 4
+    describe("Column three"){
+      it("Is 6"){
+        pascal(2, rowId) shouldBe 6
+      }
+    }
+  }
+  describe("Silly row"){
+    val rowId = 50
+    describe("Column three"){
+      it("Is 6"){
+        pascal(2, rowId)
+      }
+    }
+  }
 }
 
 def pascal(targetColumn: Int, targetRow: Int): Int = {
+  def outsideColumn(column: Int, row: Int): Boolean =
+    (column == 0 || column == row+1 || row == 1)
   def validColumn(): Boolean =
     targetColumn <= targetRow
   def loopRows(column: Int, row: Int): Int =
-    if (column == 0 || column >= row) 1 else loopRows(column, row-1) + loopRows(column+1, row-1)
+    if (outsideColumn(column, row)) 1 else loopRows(column, row-1) + loopRows(column+1, row-1)
 
   if (validColumn()) loopRows(targetColumn, targetRow) else throw new IndexOutOfBoundsException
 }
