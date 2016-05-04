@@ -23,11 +23,13 @@ class ParenthesesBalancingSpec extends FunSpec with Matchers {
 }
 
 def balance(chars : List[Char]): Boolean = {
-  def loopChars(chars: List[Char]): Boolean =
-    if (chars.head == '(')
-  
+//  def loopChars(chars: List[Char]): Boolean =
+//    if (chars.head == '(')
 
-  if (chars.head == '(') else
+  val parentheses = chars.filter(character => (character == '(') || (character == ')'))
+  println(parentheses)
+  //[(, (, ), (, ), )]
+  true
 }
 
 (new ParenthesesBalancingSpec).execute()
