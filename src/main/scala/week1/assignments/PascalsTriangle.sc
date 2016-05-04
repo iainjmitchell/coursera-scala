@@ -51,7 +51,7 @@ class PascalSpec extends FunSpec with Matchers {
     }
   }
   describe("Silly row"){
-    val rowId = 50
+    val rowId = 5000
     describe("Column three"){
       it("Is 6"){
         pascal(2, rowId)
@@ -60,15 +60,30 @@ class PascalSpec extends FunSpec with Matchers {
   }
 }
 
+//def pascal(targetColumn: Int, targetRow: Int): Int = {
+//  def outsideColumn(column: Int, row: Int): Boolean =
+//    (column == 0 || column == row+1 || row == 1)
+//  def validColumn(): Boolean =
+//    targetColumn <= targetRow
+//  def loopRows(column: Int, row: Int): Int =
+//    if (outsideColumn(column, row)) 1 else loopRows(column, row-1) + loopRows(column+1, row-1)
+//
+//  if (validColumn()) loopRows(targetColumn, targetRow) else throw new IndexOutOfBoundsException
+//}
+
 def pascal(targetColumn: Int, targetRow: Int): Int = {
-  def outsideColumn(column: Int, row: Int): Boolean =
-    (column == 0 || column == row+1 || row == 1)
   def validColumn(): Boolean =
     targetColumn <= targetRow
-  def loopRows(column: Int, row: Int): Int =
-    if (outsideColumn(column, row)) 1 else loopRows(column, row-1) + loopRows(column+1, row-1)
 
-  if (validColumn()) loopRows(targetColumn, targetRow) else throw new IndexOutOfBoundsException
+  val l = if (targetColumn > targetRow / 2) targetColumn else targetRow - targetColumn
+
+  def accumulate(i: Int, accumulator: Int): Int =
+    if (i == l + 1) accumulator
+    else accumulate(i + 1, accumulator * (targetRow - l + i) / i)
+
+  if (validColumn()) accumulate(1, 1) else throw new IndexOutOfBoundsException
 }
+
+
 
 (new PascalSpec).execute()
