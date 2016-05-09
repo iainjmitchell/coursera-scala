@@ -53,9 +53,9 @@ class ParenthesesBalancingSpec extends FunSpec with Matchers {
 }
 
 def balance(chars : List[Char]): Boolean = {
-  def findEnd(chars: List[Char]): Boolean = {
-    if (chars.length == 0) false else
-      if (chars.head == ')') true else findEnd(chars.tail)
+  def findEnd(chars: List[Char]): (Boolean, List[Char]) = {
+    if (chars.length == 0) (false, null) else
+      if (chars.head == ')') (true, chars) else findEnd(chars.tail)
   }
 
   def loopChars(chars: List[Char]): Boolean = {
