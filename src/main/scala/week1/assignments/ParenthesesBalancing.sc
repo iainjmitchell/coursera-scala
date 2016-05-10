@@ -53,19 +53,19 @@ class ParenthesesBalancingSpec extends FunSpec with Matchers {
 }
 
 def balance(chars : List[Char]): Boolean = {
-  def findEnd(chars: List[Char]): (Boolean, List[Char]) = {
-    if (chars.length == 0) (false, null) else
-      if (chars.head == ')') (true, chars) else findEnd(chars.tail)
+  def loopBalance(characters: List[Char], openParentheses: Int = 0): Boolean = {
+    if (characters.isEmpty) openParentheses == 0
+    else
+      characters.head match {
+        case '(' => loopBalance(characters.tail, openParentheses + 1)
+        case ')' => 
+          if (openParentheses > 0)
+            loopBalance(characters.tail, openParentheses - 1)
+          else false
+        case _ => loopBalance(characters.tail, openParentheses)
+      }
   }
-
-  def loopChars(chars: List[Char]): Boolean = {
-    if (chars.length == 0) true else
-      if (chars.head == '(') findEnd(chars.tail) else
-        loopChars(chars.tail)
-  }
-
-  val parentheses = chars.filter(character => (character == '(') || (character == ')'))
-  (parentheses.count(_ == '(') == parentheses.count(_ == ')')) && loopChars(parentheses)
+  loopBalance(chars)
 }
 
 (new ParenthesesBalancingSpec).execute()
